@@ -50,6 +50,15 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
 
     @Override
     public SoldTicketResponse purchase(Seat seat) {
+        checkIfSeatIsCorrect(seat);
+        setPrice(seat);
+        String token = UUID.randomUUID().toString();
+        var res = new SoldTicketResponse(token, seat);
+        soldTicketsRepository.save(token, seat);
+        return res;
+    }
+
+    private void checkIfSeatIsCorrect(Seat seat) {
         if (!(1 <= seat.getRow() &&
                 seat.getRow() <= cinemaRoomProperties.getTotalRows() &&
                 1 <= seat.getColumn() &&
@@ -60,11 +69,6 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
         if (!cinemaRoomRepository.delete(seat)) {
             throw new AlreadySoldException();
         }
-        setPrice(seat);
-        String token = UUID.randomUUID().toString();
-        var res = new SoldTicketResponse(token, seat);
-        soldTicketsRepository.save(token, seat);
-        return res;
     }
 
     @Override

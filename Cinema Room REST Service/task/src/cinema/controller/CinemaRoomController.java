@@ -6,6 +6,7 @@ import cinema.exception.OutOfBoundsException;
 import cinema.exception.WrongPasswordException;
 import cinema.model.*;
 import cinema.service.CinemaRoomService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,10 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class CinemaRoomController {
 
-    @Autowired
     CinemaRoomService cinemaRoomService;
-
-    @Autowired
     CinemaRoomProperties cinemaRoomProperties;
 
     @GetMapping("/seats")
